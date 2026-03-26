@@ -1,6 +1,5 @@
-# Übungsprotokoll Labor SYT - IndInf
+# Übungsprotokoll Labor SYT - Haas
 
-*ALLE KURSIVEN Inhalte in dieser Vorlage müssen entweder entsprechend angepasst werden (z.B. Name des Projektes) oder vor Abgabe gelöscht werden (alle Hilfetexte)*
 
 **Datum**: 26.03.2026
 **Schülername**: Dominik Haas
