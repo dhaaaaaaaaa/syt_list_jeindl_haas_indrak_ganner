@@ -19,7 +19,11 @@ Ziel des Projektes ist die Implementierung einer Fernsteuerung für eine industr
 - *Software:* TwinCAT 3 (Engineering Umgebung) oder alternativ Python mit der Library pysoem.
 
 ## Zusammenfassung des heutigen Erfolges
-*Kurze Zusammenfassung in einigen ganzen Sätzen*
+Zuerst haben wir uns das Förderband angeschaut und vom WAGO 750-354/000-001 die Dokumentation gesucht und gefunden. Die wichtigsten Klemmen dabei sind 750-601 (für die Stromversorgung), 750-614 (2-Kanal Analog-Eingang) und 750-430 (8-Kanal Digital-Eingang 24V). Dann haben wir die Ethernet-Kabel angeschlossen, eines von unserem Laptop in den Master (Port X100) und eines vom Master (Port X101) in den WAGO Slave (EtherCAT IN). Am Ende haben wir es geschafft, die Hardware in TwinCAT zu scannen, auch wenn wir am Anfang Verbindungsprobleme hatten.
+
+Wir haben den Beckhoff CX9240 als Master mit dem WAGO-Koppler als Slave verbunden. Ein kleiner Fehler war am Anfang, dass wir das Kabel beim WAGO in "OUT" statt in "IN" gesteckt haben, weshalb der Scan nicht funktioniert hat. Am Laptop mussten wir eine feste IP-Adresse vergeben, damit wir den Beckhoff-Master überhaupt im Netzwerk finden konnten. Danach haben wir ein neues Projekt in der TwinCAT XAE Shell erstellt und das "Target System" auf den Beckhoff CX9240 umgestellt. 
+Anschließend haben nach den EtherCAT-Geräten gesucht. Ein Problem war hier die fehlende orangefarbene Endklemme am WAGO-Block, weshalb der Bus erst eine Fehlermeldung ausgespuckt hat. Nachdem wir sie drangesteckt haben, wurde alles erkannt.
+
 
 ## Meine heutigen Tätigkeiten (detailliert)
 *detaillierte Auflistung einzelner Tätigkeiten*
