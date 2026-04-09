@@ -1,7 +1,7 @@
 # Übungsprotokoll Labor SYT - Haas
 
 
-**Datum**: 26.03.2026
+**Datum**: 09.04.2026
 **Schülername**: Dominik Haas
 **Klasse**: 5CHIT
 **Meine Gruppenkollegen**: Jakob Jeindl (5DHIT)
@@ -18,10 +18,9 @@ Ziel des Projektes ist die Implementierung einer Fernsteuerung für eine industr
 - *Software:* TwinCAT 3 (Engineering Umgebung) oder alternativ Python mit der Library pysoem.
 
 ## Zusammenfassung des heutigen Erfolges
-Zuerst haben wir uns das Förderband angeschaut und vom WAGO 750-354/000-001 die Dokumentation gesucht und gefunden. Die wichtigsten Klemmen dabei sind 750-601 (für die Stromversorgung), 750-614 (2-Kanal Analog-Eingang) und 750-430 (8-Kanal Digital-Eingang 24V). Dann haben wir die Ethernet-Kabel angeschlossen, eines von unserem Laptop in den Master (Port X100) und eines vom Master (Port X101) in den WAGO Slave (EtherCAT IN). Am Ende haben wir es geschafft, die Hardware in TwinCAT zu scannen, auch wenn wir am Anfang Verbindungsprobleme hatten.
+Wir haben den physikalischen Aufbau abgeschlossen und den Laptop direkt mit dem WAGO-Koppler verbunden. Ein großes Problem war die Inkompatibilität der eingebauten Realtek-Netzwerkkarte des Laptops mit den TwinCAT-Echtzeit-Treibern. Auf Anweisung des Lehrers haben wir versucht, dieses Problem mit "Andy’s Package" zu lösen, um die Karte für TwinCAT "sichtbar" zu machen.
 
-Wir haben den Beckhoff CX9240 als Master mit dem WAGO-Koppler als Slave verbunden. Ein kleiner Fehler war am Anfang, dass wir das Kabel beim WAGO in "OUT" statt in "IN" gesteckt haben, weshalb der Scan nicht funktioniert hat. Am Laptop mussten wir eine feste IP-Adresse vergeben, damit wir den Beckhoff-Master überhaupt im Netzwerk finden konnten. Danach haben wir ein neues Projekt in der TwinCAT XAE Shell erstellt und das "Target System" auf den Beckhoff CX9240 umgestellt. 
-Anschließend haben nach den EtherCAT-Geräten gesucht. Ein Problem war hier die fehlende orangefarbene Endklemme am WAGO-Block, weshalb der Bus erst eine Fehlermeldung ausgespuckt hat. Nachdem wir sie drangesteckt haben, wurde alles erkannt.
+Obwohl wir die Installation durchgeführt und verschiedene Konfigurationen getestet haben, blieb der Erfolg aus: Der Laptop konnte keine stabile Echtzeit-Verbindung aufbauen. Wir konnten zwar die Hardware im Projektbaum sehen, aber kein "Free Run" oder "Config Mode" war stabil möglich. Damit haben wir wertvolle Erkenntnisse über die Hardware-Limitierungen von Consumer-Laptops im industriellen Umfeld gewonnen.
 
 
 ## Meine heutigen Tätigkeiten (detailliert)
@@ -35,7 +34,19 @@ Ohne Konfiguration: Durchführung eines Scans der E/A-Geräte. Hierbei wurden al
 Nächstes mal Freerun.
 
 ## Meine Learnings aus dieser Laboreinheit
-Ich habe gelernt, dass die Reihenfolge und der physische Anschluss bei EtherCAT entscheidend sind. Ein Kabel im falschen Port führt dazu, dass der gesamte Strang für den Master unsichtbar bleibt. Außerdem habe ich mich mit TwinCat beschäftigt (letztes Semester war ich dafür nicht verantwortlich). Ein wichtiges Learning war auch, dass der Feldbus physisch abgeschlossen sein muss. Ohne die orangefarbene Endklemme am letzten Slot des Slaves kann kein stabiler Datenfluss zustande kommen, und das System verweigert den Wechsel in den op state.
+Verkabelung des Laptops direkt mit dem WAGO-Koppler (Port IN). Wir haben den Umweg über das Labornetzwerk vermieden, um Latenzen zu minimieren.
+Da der Standard-TwinCAT-Treiber die Realtek-Karte als "incompatible" markierte, haben wir nach Rücksprache mit dem Lehrer das Modul "Andy’s Package" installiert. Ziel war es, die Hardware-ID der Netzwerkkarte so zu manipulieren, dass TwinCAT sie als echtzeitfähigen Adapter akzeptiert.
+Trotz der Installation von "Andy's Package" traten weiterhin Bluescreens und Timeout-Fehler auf. Wir haben folgende Dinge versucht:
+
+- Die Energiesparoptionen der Netzwerkkarte zu deaktivieren.
+
+- Den Treiber manuell über den Gerätemanager zu erzwingen.
+
+- Die Virtualisierung im BIOS (Hyper-V Konflikt) auszuschalten.
+
+- Letztendlich ließ sich der Laptop nicht dazu bewegen, Pakete im erforderlichen Echtzeit-Intervall zu senden. Der Scan fand zwar zeitweise den Koppler, brach aber sofort mit einem "Init to Preop" Fehler ab.
+
+
 
 ## Quellen
 *Alle verwendeten Quellen, auf die sich bei der Tätigkeitsbeschreibung auch bezogen werden soll, Beispiele siehe unten - diese sind vor der Abgabe zu entfernen*
